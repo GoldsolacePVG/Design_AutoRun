@@ -22,7 +22,7 @@ public class CoinController : MonoBehaviour
         coin.transform.Rotate(Vector3.forward, rotation_speed);
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.name == "Hero")
         {
@@ -35,5 +35,5 @@ public class CoinController : MonoBehaviour
                 coin.SetActive(false);
             }
         }
-    }
+    }*/
 }

@@ -30,6 +30,11 @@ public class HeroController : MonoBehaviour
 
     public void ResetPosition() {
         hero.transform.position = spawn_point;
+
+        foreach(GameObject coin in MyCoins)
+        {
+            coin.SetActive(true);
+        }
     }
 
     public void AddScore(int score_given)
@@ -70,6 +75,13 @@ public class HeroController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
+        if(other.gameObject.name == "Coin")
+        {
+            GameObject coin = other.gameObject;
+            MyCoins.Add(coin);
+            coin.SetActive(false);
+            AddScore(1);
+            Debug.Log("Player Score: " + score);
+        }
     }
 }
