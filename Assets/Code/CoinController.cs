@@ -5,7 +5,7 @@ using UnityEngine;
 public class CoinController : MonoBehaviour
 {
     public GameObject coin;
-    private int score_given = 1;
+    // private int score_given = 1;
     public float speed_rot = 80.0f;
 
     // Start is called before the first frame update
