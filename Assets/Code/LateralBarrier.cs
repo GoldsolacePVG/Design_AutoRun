@@ -5,23 +5,32 @@ using UnityEngine;
 public class LateralBarrier : MonoBehaviour
 {
     public GameObject barrier;
+    public float distance = 6.5f;
+    public float speed = 3.0f;
+
+    private Vector3 initial_position;
+    private Vector3 final_position;
+    private bool movingRight = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        initial_position = transform.position;
+        final_position = transform.position + Vector3.right * distance;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        barrier.transform.Translate(Vector3.right * Time.deltaTime * 3);
-        
-        if(barrier.transform.position.x == 3.14f)
-        {
-            barrier.transform.Translate(Vector3.left * Time.deltaTime * 3);
-        }else if (barrier.transform.position.x <= -3.26f)
-        {
+    void Update(){
+        if (movingRight){
+            transform.position = Vector3.MoveTowards(transform.position, final_position, speed * Time.deltaTime);
+            if (transform.position == final_position){
+                movingRight = false;
+            }
+        }else{
+            transform.position = Vector3.MoveTowards(transform.position, initial_position, speed * Time.deltaTime);
+            if(transform.position == initial_position){
+                movingRight = true;
+            }
         }
     }
 }

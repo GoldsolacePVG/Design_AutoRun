@@ -45,7 +45,7 @@ public class HeroController : MonoBehaviour
     // Update is called once per frame
     void Update() {
         // Raycast
-        is_grounded = Physics.Raycast(hero.transform.position, Vector3.down, 1.0f);
+        is_grounded = Physics.Raycast(hero.transform.position, Vector3.down, 1.5f);
 
         // if(Input.GetKey(KeyCode.W)){Debug.Log("W");}
         if(Input.GetKey(KeyCode.A)){
