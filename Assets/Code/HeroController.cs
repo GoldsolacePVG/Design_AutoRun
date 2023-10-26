@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class HeroController : MonoBehaviour
 {
     public GameObject hero;
-    private Animator animation;
     public Rigidbody hero_rigid;
     public Vector3 dir = new Vector3();
-    private Vector3 spawn_point = new Vector3();
     public int score = 0;
+    private Animator animation;
+    private Vector3 spawn_point = new Vector3();
     public float lateral_speed = 5.0f;
     public float forward_speed = 6.0f;
+    public float rotation_speed = 30.0f;
     public float force = 7.0f;
     public bool is_grounded;
     public bool is_jumping = false;
@@ -78,6 +80,12 @@ public class HeroController : MonoBehaviour
             Debug.Log("Enter");
         }
 
+        if (!is_grounded){
+            animation.SetBool("isJumping_", true);
+        }else{
+            animation.SetBool("isJumping_", false);
+        }
+
         Run();
     }
 
@@ -90,6 +98,24 @@ public class HeroController : MonoBehaviour
             coin.SetActive(false);
             AddScore(1);
             Debug.Log("Player Score: " + score);
+        }
+
+        if(other.gameObject.name == "SpeedUp")
+        {
+            forward_speed = 15.0f;
+        }
+
+        if(other.gameObject.name == "ChangeDir")
+        {
+            hero.transform.Rotate(0.0f, - 90.252f, 0.0f, Space.World);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "SpecialCube")
+        {
+            forward_speed = 6.0f;
         }
     }
 }
