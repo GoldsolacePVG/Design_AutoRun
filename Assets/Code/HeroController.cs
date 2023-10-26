@@ -5,19 +5,22 @@ using UnityEngine;
 public class HeroController : MonoBehaviour
 {
     public GameObject hero;
+    private Animator animation;
     public Rigidbody hero_rigid;
     public Vector3 dir = new Vector3();
     private Vector3 spawn_point = new Vector3();
     public int score = 0;
     public float lateral_speed = 5.0f;
     public float forward_speed = 6.0f;
-    public float force = 5.0f;
+    public float force = 7.0f;
     public bool is_grounded;
+    public bool is_jumping = false;
 
     public List<GameObject> MyCoins;
 
     // Start is called before the first frame update
     void Start() {
+        animation = GetComponent<Animator>();
         hero_rigid = GetComponent<Rigidbody>();
         spawn_point = hero.transform.position;
 
@@ -45,7 +48,7 @@ public class HeroController : MonoBehaviour
     // Update is called once per frame
     void Update() {
         // Raycast
-        is_grounded = Physics.Raycast(hero.transform.position, Vector3.down, 1.5f);
+        is_grounded = Physics.Raycast(hero.transform.position, Vector3.down, 0.1f);
 
         // if(Input.GetKey(KeyCode.W)){Debug.Log("W");}
         if(Input.GetKey(KeyCode.A)){
@@ -64,7 +67,12 @@ public class HeroController : MonoBehaviour
         }
         // if(Input.GetKeyDown(KeyCode.DownArrow)){Debug.Log("DownArrow");}
         if(Input.GetKeyDown(KeyCode.Space) && is_grounded){
+            is_jumping = true;
+            animation.SetBool("isJumping_", true);
             hero_rigid.AddForce(hero.transform.up * force, ForceMode.Impulse);
+        }else if (is_grounded && animation.GetBool("isJumping_")) {
+            animation.SetBool("isJumping_", false);
+            is_jumping = false;
         }
         if(Input.GetKeyDown(KeyCode.Return)){
             Debug.Log("Enter");
