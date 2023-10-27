@@ -5,10 +5,11 @@ using UnityEngine;
 public class DeathPlane : MonoBehaviour
 {
     public GameObject plane;
+    public HeroController hero;
     public Vector3 dir = new Vector3();
     private Vector3 spawn_point_plane = new Vector3();
     public float lateral_speed = 5.0f;
-    public float forward_speed = 6.0f;
+    private float forward_speed = 10.0f;
 
     void Start() {
         spawn_point_plane = plane.transform.position;
@@ -45,6 +46,13 @@ public class DeathPlane : MonoBehaviour
         // if(Input.GetKeyDown(KeyCode.Return)){
         //     Debug.Log("Enter");
         // }
+
+        if (hero.is_grounded)
+        {
+            forward_speed = 10.0f;
+        }else{
+            forward_speed = 20.0f;
+        }
         Run();
     }
     
