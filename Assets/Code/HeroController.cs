@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+[RequireComponent(typeof(ParticleSystem))]
 public class HeroController : MonoBehaviour
 {
     public GameObject hero;
@@ -12,6 +13,8 @@ public class HeroController : MonoBehaviour
     public Vector3 dir = new Vector3();
 
     private Animator animation;
+
+    public ParticleSystem particle_system;
 
     private Vector3 spawn_point = new Vector3();
 
@@ -32,6 +35,7 @@ public class HeroController : MonoBehaviour
     void Start() {
         animation = GetComponent<Animator>();
         hero_rigid = GetComponent<Rigidbody>();
+        //particle_system = GetComponent<ParticleSystem>();
         spawn_point = hero.transform.position;
 
         MyCoins = new List<GameObject>();
@@ -90,9 +94,13 @@ public class HeroController : MonoBehaviour
 
         if (!is_grounded){
             forward_speed = 20.0f;
+            //particle_system.Stop(false);
+            particle_system.Play();
             animation.SetBool("isJumping_", true);
         }else{
             forward_speed = 10.0f;
+            //particle_system.Play(false);
+            particle_system.Stop();
             animation.SetBool("isJumping_", false);
         }
 
@@ -100,7 +108,7 @@ public class HeroController : MonoBehaviour
         if (rot_left)
         {
             transform.Rotate(Vector3.down * rotation_speed * Time.deltaTime);
-            Debug.Log("My rotation y: " + transform.rotation.y *100);
+            Debug.Log("My rotation y: " + transform.rotation.y * 100);
             if (transform.rotation.y * 100 <= -90.0f) {
                 Debug.Log("(FINAL) My rotation y: " + transform.rotation.y *100);
                 rot_left = false;
