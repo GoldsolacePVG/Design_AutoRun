@@ -14,7 +14,7 @@ public class HeroController : MonoBehaviour
 
     private Animator animation;
 
-    public ParticleSystem particle_system;
+    //public ParticleSystem particle_system;
 
     private Vector3 spawn_point = new Vector3();
 
@@ -95,12 +95,12 @@ public class HeroController : MonoBehaviour
         if (!is_grounded){
             forward_speed = 20.0f;
             //particle_system.Stop(false);
-            particle_system.Play();
+            //particle_system.Play(true);
             animation.SetBool("isJumping_", true);
         }else{
             forward_speed = 10.0f;
             //particle_system.Play(false);
-            particle_system.Stop();
+            //particle_system.Stop(true);
             animation.SetBool("isJumping_", false);
         }
 
