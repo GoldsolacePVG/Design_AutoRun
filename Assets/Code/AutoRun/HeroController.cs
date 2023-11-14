@@ -64,22 +64,18 @@ public class HeroController : MonoBehaviour
         // Raycast
         is_grounded = Physics.Raycast(hero.transform.position, Vector3.down, 0.1f);
 
-        // if(Input.GetKey(KeyCode.W)){Debug.Log("W");}
         if(Input.GetKey(KeyCode.A)){
             hero.transform.position += Vector3.left * lateral_speed * Time.deltaTime;
         }
-        // if(Input.GetKey(KeyCode.S)){Debug.Log("S");}
         if(Input.GetKey(KeyCode.D)){
             hero.transform.position += Vector3.right * lateral_speed * Time.deltaTime;
         }
-        // if(Input.GetKeyDown(KeyCode.UpArrow)){Debug.Log("UpArrow");}
         if(Input.GetKey(KeyCode.LeftArrow)){
             hero.transform.position += Vector3.left * lateral_speed * Time.deltaTime;
         }
         if(Input.GetKey(KeyCode.RightArrow)){
             hero.transform.position += Vector3.right * lateral_speed * Time.deltaTime;
         }
-        // if(Input.GetKeyDown(KeyCode.DownArrow)){Debug.Log("DownArrow");}
         if(Input.GetKeyDown(KeyCode.Space) && is_grounded){
             is_jumping = true;
             animation.SetBool("isJumping_", true);
@@ -143,9 +139,11 @@ public class HeroController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.name == "SpecialCube")
+        DeathPlane dp = FindObjectOfType<DeathPlane>();
+        if(collision.gameObject.tag == "Barrier")
         {
-            forward_speed = 10.0f;
+            ResetPosition();
+            dp.ResetPosition();
         }
     }
 }

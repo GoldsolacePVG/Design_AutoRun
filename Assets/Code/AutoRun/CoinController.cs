@@ -21,19 +21,4 @@ public class CoinController : MonoBehaviour
 
         coin.transform.Rotate(Vector3.forward, rotation_speed);
     }
-
-    /*private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.name == "Hero")
-        {
-            HeroController gc = other.GetComponent<HeroController>();
-
-            if(gc != null)
-            {
-                gc.AddScore(score_given);
-                Debug.Log("Player Score: " + gc.score);
-                coin.SetActive(false);
-            }
-        }
-    }*/
 }
