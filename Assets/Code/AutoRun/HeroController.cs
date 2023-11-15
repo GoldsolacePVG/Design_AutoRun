@@ -142,8 +142,10 @@ public class HeroController : MonoBehaviour
         DeathPlane dp = FindObjectOfType<DeathPlane>();
         if(collision.gameObject.tag == "Barrier")
         {
+            ProceduralGen pg = FindObjectOfType<ProceduralGen>();
             ResetPosition();
             dp.ResetPosition();
+            pg.ResetPosition();
         }
     }
 }

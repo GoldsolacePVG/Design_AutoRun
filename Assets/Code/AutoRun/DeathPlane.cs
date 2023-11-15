@@ -59,8 +59,10 @@ public class DeathPlane : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.name == "Hero"){
             HeroController gc = other.GetComponent<HeroController>();
+            ProceduralGen pg = FindObjectOfType<ProceduralGen>();
             gc.ResetPosition();
             ResetPosition();
+            pg.ResetPosition();
         }
     }
 }
