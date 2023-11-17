@@ -8,15 +8,10 @@ using UnityEngine.SceneManagement;
 public class HeroController : MonoBehaviour
 {
     public GameObject hero;
-
     public Rigidbody hero_rigid;
-
     public Vector3 dir = new Vector3();
-
     private Animator animation;
-
     //public ParticleSystem particle_system;
-
     private Vector3 spawn_point = new Vector3();
 
     public int score = 0;
@@ -70,16 +65,10 @@ public class HeroController : MonoBehaviour
         // Raycast
         is_grounded = Physics.Raycast(hero.transform.position, Vector3.down, 0.1f);
 
-        if(Input.GetKey(KeyCode.A)){
+        if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {
             hero.transform.position += Vector3.left * lateral_speed * Time.deltaTime;
         }
-        if(Input.GetKey(KeyCode.D)){
-            hero.transform.position += Vector3.right * lateral_speed * Time.deltaTime;
-        }
-        if(Input.GetKey(KeyCode.LeftArrow)){
-            hero.transform.position += Vector3.left * lateral_speed * Time.deltaTime;
-        }
-        if(Input.GetKey(KeyCode.RightArrow)){
+        if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {
             hero.transform.position += Vector3.right * lateral_speed * Time.deltaTime;
         }
         if(Input.GetKeyDown(KeyCode.Space) && is_grounded){
@@ -104,17 +93,6 @@ public class HeroController : MonoBehaviour
             //particle_system.Play(false);
             //particle_system.Stop(true);
             animation.SetBool("isJumping_", false);
-        }
-
-        // ROTATION
-        if (rot_left)
-        {
-            transform.Rotate(Vector3.down * rotation_speed * Time.deltaTime);
-            Debug.Log("My rotation y: " + transform.rotation.y * 100);
-            if (transform.rotation.y * 100 <= -90.0f) {
-                Debug.Log("(FINAL) My rotation y: " + transform.rotation.y *100);
-                rot_left = false;
-            }
         }
 
         Run();
