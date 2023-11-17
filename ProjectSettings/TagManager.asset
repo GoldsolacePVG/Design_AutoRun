@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Barrier
   - Platform
+  - Coin
   layers:
   - Default
   - TransparentFX

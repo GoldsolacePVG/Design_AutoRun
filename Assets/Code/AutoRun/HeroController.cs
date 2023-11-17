@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(ParticleSystem))]
 public class HeroController : MonoBehaviour
@@ -28,10 +29,10 @@ public class HeroController : MonoBehaviour
     public bool is_grounded;
     public bool is_jumping = false;
     public bool rot_left = false;
+    public bool change_scene = false;
 
     public List<GameObject> MyCoins;
 
-    // Start is called before the first frame update
     void Start() {
         animation = GetComponent<Animator>();
         hero_rigid = GetComponent<Rigidbody>();
@@ -46,12 +47,18 @@ public class HeroController : MonoBehaviour
     }
 
     public void ResetPosition() {
+
+        if (change_scene) {
+            SceneManager.LoadScene(0);
+        }
+
         hero.transform.position = spawn_point;
 
         foreach(GameObject coin in MyCoins)
         {
             coin.SetActive(true);
         }
+        score = 0;
     }
 
     public void AddScore(int score_given)
@@ -59,7 +66,6 @@ public class HeroController : MonoBehaviour
         score += score_given;
     }
 
-    // Update is called once per frame
     void Update() {
         // Raycast
         is_grounded = Physics.Raycast(hero.transform.position, Vector3.down, 0.1f);
@@ -125,15 +131,12 @@ public class HeroController : MonoBehaviour
             Debug.Log("Player Score: " + score);
         }
 
-        /*if(other.gameObject.name == "SpeedUp")
-        {
-            forward_speed = 15.0f;
-        }*/
+        if(other.gameObject.name == "ChgScenePlt") {
+            change_scene = true;
+        }
 
-        // ROTATION
-        if(other.gameObject.name == "ChangeDir")
-        {
-           // rot_left = true;
+        if(score >= 18) {
+            SceneManager.LoadScene(1);
         }
     }
 

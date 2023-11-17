@@ -44,4 +44,10 @@ public class ProceduralGen : MonoBehaviour
             other.gameObject.transform.position += new Vector3(0.0f, 0.0f, offsetZ);
         }
     }
+
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.tag == "Coin") {
+            other.gameObject.transform.position += new Vector3(0.0f, 0.0f, offsetZ);
+        }
+    }
 }

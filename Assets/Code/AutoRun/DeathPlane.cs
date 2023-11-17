@@ -24,28 +24,18 @@ public class DeathPlane : MonoBehaviour
     }
 
     void Update() {
-        // if(Input.GetKey(KeyCode.W)){Debug.Log("W");}
         if(Input.GetKey(KeyCode.A)){
             plane.transform.position += Vector3.left * lateral_speed * Time.deltaTime;
         }
-        // if(Input.GetKey(KeyCode.S)){Debug.Log("S");}
         if(Input.GetKey(KeyCode.D)){
             plane.transform.position += Vector3.right * lateral_speed * Time.deltaTime;
         }
-        // if(Input.GetKeyDown(KeyCode.UpArrow)){Debug.Log("UpArrow");}
         if(Input.GetKey(KeyCode.LeftArrow)){
             plane.transform.position += Vector3.left * lateral_speed * Time.deltaTime;
         }
         if(Input.GetKey(KeyCode.RightArrow)){
             plane.transform.position += Vector3.right * lateral_speed * Time.deltaTime;
         }
-        // // if(Input.GetKeyDown(KeyCode.DownArrow)){Debug.Log("DownArrow");}
-        // if(Input.GetKeyDown(KeyCode.Space)){
-        //     Debug.Log("Space");
-        // }
-        // if(Input.GetKeyDown(KeyCode.Return)){
-        //     Debug.Log("Enter");
-        // }
 
         if (hero.is_grounded)
         {
