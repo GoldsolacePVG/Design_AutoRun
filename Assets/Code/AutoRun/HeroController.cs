@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(ParticleSystem))]
 public class HeroController : MonoBehaviour
 {
-    public GameObject hero;
+    public GameObject hero, particles, go;
     public Rigidbody hero_rigid;
     public Vector3 dir = new Vector3();
     private Animator animation;
@@ -21,18 +21,18 @@ public class HeroController : MonoBehaviour
     private float rotation_speed = 40.0f;
     public float force = 7.0f;
 
-    public bool is_grounded;
+    public bool is_grounded = true;
     public bool is_jumping = false;
-    public bool rot_left = false;
     public bool change_scene = false;
+    public bool can_spawn_part = true;
 
     public List<GameObject> MyCoins;
 
     void Start() {
         animation = GetComponent<Animator>();
         hero_rigid = GetComponent<Rigidbody>();
-        //particle_system = GetComponent<ParticleSystem>();
         spawn_point = hero.transform.position;
+        //particle_system.Stop();
 
         MyCoins = new List<GameObject>();
     }
@@ -44,7 +44,7 @@ public class HeroController : MonoBehaviour
     public void ResetPosition() {
 
         if (change_scene) {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
 
         hero.transform.position = spawn_point;
@@ -62,15 +62,15 @@ public class HeroController : MonoBehaviour
     }
 
     void Update() {
+        Vector3 aux_pos;
+        aux_pos.x = this.transform.position.x;
+        aux_pos.y = this.transform.position.y + 4.144f;
+        aux_pos.z = this.transform.position.z - 5.04f;
         // Raycast
         is_grounded = Physics.Raycast(hero.transform.position, Vector3.down, 0.1f);
 
-        if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {
-            hero.transform.position += Vector3.left * lateral_speed * Time.deltaTime;
-        }
-        if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {
-            hero.transform.position += Vector3.right * lateral_speed * Time.deltaTime;
-        }
+        if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {hero.transform.position += Vector3.left * lateral_speed * Time.deltaTime;}
+        if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {hero.transform.position += Vector3.right * lateral_speed * Time.deltaTime;}
         if(Input.GetKeyDown(KeyCode.Space) && is_grounded){
             is_jumping = true;
             animation.SetBool("isJumping_", true);
@@ -79,20 +79,27 @@ public class HeroController : MonoBehaviour
             animation.SetBool("isJumping_", false);
             is_jumping = false;
         }
-        if(Input.GetKeyDown(KeyCode.Return)){
-            Debug.Log("Enter");
-        }
 
         if (!is_grounded){
             forward_speed = 20.0f;
-            //particle_system.Stop(false);
-            //particle_system.Play(true);
             animation.SetBool("isJumping_", true);
         }else{
             forward_speed = 10.0f;
-            //particle_system.Play(false);
-            //particle_system.Stop(true);
             animation.SetBool("isJumping_", false);
+        }
+
+        if (!is_grounded) {
+            if (can_spawn_part)
+            {
+                go = Instantiate<GameObject>(particles, aux_pos, Quaternion.identity);
+                go.transform.SetParent(this.transform, true);
+                can_spawn_part = false;
+            }
+        }
+        if (is_grounded)
+        {
+            Destroy(go);
+            can_spawn_part = true;
         }
 
         Run();
@@ -106,7 +113,6 @@ public class HeroController : MonoBehaviour
             MyCoins.Add(coin);
             coin.SetActive(false);
             AddScore(1);
-            Debug.Log("Player Score: " + score);
         }
 
         if(other.gameObject.name == "ChgScenePlt") {
@@ -114,7 +120,7 @@ public class HeroController : MonoBehaviour
         }
 
         if(score >= 18) {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
     }
 
